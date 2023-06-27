@@ -1,0 +1,75 @@
+<script src="react.development.js"></script>
+<script src="babel.min.js"></script>
+<script src="react-dom.development.js"></script>
+
+<html>
+    <link rel="stylesheet" href="webstyles.css">
+    <body>
+        <div id="root"></div>
+        
+    </body>
+</html>
+
+<script type="text/babel">
+    const Header=()=>{
+        return <div className="header">R3 Systems India</div>
+    }
+    const Footer=()=>{
+        return <div className="footer">&copy; R3 Systems India Pvt. Ltd.</div>
+    }
+    const Menu=()=>{
+        let timer;
+        const [isMobileView,setIsMobileView]=React.useState(document.body.offsetWidth<600 ? true : false)
+        const[left,setLeft]=React.useState(0)
+        const[menuName,setMenuName]=React.useState('home')
+        window.addEventListener('resize',()=>{
+            clearTimeout(timer)
+            timer=setTimeout(()=>{
+                fnResize()
+            },500)
+        })
+        const fnResize=()=>{
+            setIsMobileView(document.body.offsetWidth<600? true : false)
+        }
+
+        const fnMobileMenuBtnClick=()=>{
+            setLeft(left==0 ? -140 : 0)
+        }
+
+        const fnMenuClick=(eve)=>{
+            setMenuName(eve.target.id)
+            setLeft(-140)
+        }
+        return <div>
+            {isMobileView && <button onClick={fnMobileMenuBtnClick} className='mobile-menu-btn'>menu</button>}
+              <div onClick={fnMenuClick} style={{left:left}} className={isMobileView ? 'mobile-menu' : 'menu'}>
+                <a id='home'>Home </a>
+                <a id='about'>About</a>
+                <a id='contact'>Contact</a>
+            </div>
+                {menuName=='home' && <Home/>}
+                {menuName=='about' && <About/>}
+                {menuName=='contact' && <Contact/>}
+            </div>
+    }
+    const Home=()=>{
+        return <h1>This is home component</h1>
+    }
+    const About=()=>{
+        return <h1>This is about component</h1>
+    }
+    const Contact=()=>{
+        return <h1>This is contact component</h1>
+    }
+    
+    
+    const App=()=>{
+        return <div>
+                <Header/>
+                <Menu/>
+                <Footer/> 
+            </div>
+        }
+    const root = ReactDOM.createRoot(document.getElementById('root')); 
+    root.render(<App/>);
+    </script>

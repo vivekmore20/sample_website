@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="react.development.js"></script>
+    <script src="react-dom.development.js"></script>
+    <script src="babel.min.js"></script>
+    <link rel="stylesheet" href="mobilemenu.css">
+</head>
+<body>
+
+    <div id="durga">
+
+    </div>
+    <script type="text/babel">
+        const Header=()=>
+        {
+            return <div className="header">Deep Developers</div>
+        }
+        const Footer=()=>
+        {
+            return <div className="footer">&copy;Deep Developers</div>
+        }
+        const Menu=()=>
+        {
+            let timer;
+            const[isMobile,setMobile]=React.useState(document.body.offsetWidth<600 ? true : false)
+            const[left,setLeft]=React.useState(0)
+            const[isMenu,setMenu]=React.useState('home')
+            window.addEventListener('resize',()=>
+            {
+                clearTimeout(timer)
+                timer=setTimeout(()=>{
+                    fnSize()
+                },500)
+            })
+            const fnSize=()=>
+            {
+                setMobile(document.body.offsetWidth<600 ? true:false)
+            }
+            const fnMobileClick=()=>
+            {
+                setLeft(left==0 ? -140:0)
+            }
+            const fnMenuClick=(eve)=>
+            {
+                setMenu(eve.target.id)
+                setLeft(-140)
+            }
+
+             return <div>
+                {isMobile && <button onClick={fnMobileClick} className='button'>Menu</button>}
+                <div onClick={fnMenuClick} style={{left:left}} className={isMobile ? 'mobile-menu':'menu'}>
+                    <a id='home'>Home</a>
+                    <a id='about'>About</a>
+                    <a id='contact'>Contact</a>    
+                </div>
+                { isMenu=='home' && <Home/>}
+                { isMenu=='about' && <About/>}
+                { isMenu=='contact' && <Contact/>}
+                </div>
+            }
+            const Home=()=>
+            {
+                return <h1>This is home componenet</h1>
+            }
+            const About=()=>
+            {
+                return <h1>This is about componenet</h1>
+            }
+            const Contact=()=>
+            {
+                return <h1>This is contact componenet</h1>
+            }
+    
+
+
+        const App=()=>
+        {
+            return <div>
+                <Header/>
+                <Menu/>
+                <Footer/>
+                </div>
+        }
+        var root=ReactDOM.createRoot(document.getElementById('durga'));
+        root.render(<App/>)
+    </script>
+</body>
+</html>
